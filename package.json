@@ -1,0 +1,17 @@
+{
+  "name": "poznan-movie-shows-db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rafal Leszczynski",
+  "license": "ISC",
+  "dependencies": {
+    "babel": "^5.8.23",
+    "cheerio": "^0.19.0",
+    "parse": "^1.5.0",
+    "request": "^2.61.0"
+  }
+}

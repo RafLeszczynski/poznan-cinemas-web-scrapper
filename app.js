@@ -13,8 +13,6 @@ request('http://google.com/movies?near=Poznan&date=0', (error, response, html) =
     if (!error && response.statusCode === 200) {
         let data = getData(html);
 
-        //console.log(data);
-
         addCinemas(data);
 
     } else {
@@ -43,8 +41,6 @@ function createNewCinemaObject(data) {
     cinema.set('name', data.name);
     cinema.set('address', data.info.address);
     cinema.set('tel', data.info.tel);
-
-    console.log(cinema);
 
     return cinema;
 }

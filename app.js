@@ -1,17 +1,24 @@
 import * as config from './config/config';
-import {getData} from './lib/htmlScrapper';
+import {getData} from './lib/scrappers/google-pl-movies-scrapper';
 
 const request = require('request'),
+    iconv = require('iconv-lite'),
     Parse = require('parse').Parse;
+
+let Cinema = Parse.Object.extend("Cinema"),
+    Movie = Parse.Object.extend("Movie"),
+
+    requestParams = {
+        uri: 'http://google.pl/movies?near=Poznan&date=0',
+        encoding: null
+    };
 
 Parse.initialize(config.parse_AppKey, config.parse_JSKey);
 
-let Cinema = Parse.Object.extend("Cinema"),
-    Movie = Parse.Object.extend("Movie");
-
-request('http://google.com/movies?near=Poznan&date=0', (error, response, html) => {
+request.get(requestParams, (error, response, body) => {
     if (!error && response.statusCode === 200) {
-        let data = getData(html);
+        let encodedHTML = iconv.decode(body, "ISO-8859-2"),
+            data = getData(encodedHTML);
 
         addCinemas(data);
 
@@ -39,8 +46,8 @@ function createNewCinemaObject(data) {
     let cinema = new Cinema();
 
     cinema.set('name', data.name);
-    cinema.set('address', data.info.address);
-    cinema.set('tel', data.info.tel);
+    cinema.set('address', data.address);
+    cinema.set('tel', data.tel);
 
     return cinema;
 }
